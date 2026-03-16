@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>AgroCADI PRO v3</title>
+</head>
+<body>
+
+<h1>AgroCADI PRO v3</h1>
+
+<h2>Análise de Solo</h2>
+
+<form id="soilForm">
+pH <input id="ph"><br>
+P <input id="p"><br>
+K <input id="k"><br>
+Ca <input id="ca"><br>
+Mg <input id="mg"><br>
+CTC <input id="ctc"><br>
+
+<button type="submit">Analisar</button>
+</form>
+
+<h3>Resultado</h3>
+<pre id="result"></pre>
+
+<script>
+document.getElementById("soilForm").addEventListener("submit", async (e)=>{
+e.preventDefault()
+
+const data = {
+ph: parseFloat(ph.value),
+p: parseFloat(p.value),
+k: parseFloat(k.value),
+ca: parseFloat(ca.value),
+mg: parseFloat(mg.value),
+ctc: parseFloat(ctc.value)
+}
+
+const res = await fetch("http://localhost:8000/soil-analysis",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+})
+
+const json = await res.json()
+document.getElementById("result").textContent = JSON.stringify(json,null,2)
+})
+</script>
+
+</body>
+</html>
